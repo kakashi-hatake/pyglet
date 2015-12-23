@@ -9,8 +9,17 @@ class Portal(pyglet.sprite.Sprite):
     self.y = y
 
 
+
+class Bullet(pyglet.sprite.Sprite):
+  def __init__(self, image, x=0, y=0, rotv=0, batch=None):
+    super(Bullet,self).__init__(image, x, y,batch=batch)
+    self.x = x
+    self.y = y
+    self.rotation = rotv
+
+
 class Ship(pyglet.sprite.Sprite):
-  def __init__(self,eoff_image,eon_image,
+  def __init__(self,eoff_image,eon_image,die_image,
                maxx,maxy,
                image, x=0, y=0,
                dx=0, dy=0, rotv=0, batch=None):               
