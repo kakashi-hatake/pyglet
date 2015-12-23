@@ -27,7 +27,8 @@ class Ship(pyglet.sprite.Sprite):
     self.engines = False
     self.brakes = False
     self.thrust = 200.0
-    self.friction = 10.0
+    self.friction = 0.005 ## percent drop in speed per dt
+    self.brake_power = 0.01 ## percent drop in speed per dt when brakes are on
     self.rot_spd = 100.0
     self.rot_left = False
     self.rot_right = False
@@ -42,23 +43,16 @@ class Ship(pyglet.sprite.Sprite):
     accelx = math.cos(to_radians(self.rotation))
     accely = math.sin(to_radians(-self.rotation))
     ## ## friction slows the ship
-    ## fricx = self.friction * accelx * dt
-    ## fricy = self.friction * accely * dt
-    ## if(self.dx > 0):
-    ##   self.dx -= min(fricx,self.dx)
-    ## else:
-    ##   self.dx += min(fricx,self.dx)
-    ## #if(self.dy > 0):
-    ## #  self.dy -= min(fricy,self.dy)
-    ## #else:
-    ## #  self.dy += min(fricy,self.dy)
+    self.dx = self.dx * (1.0 - self.friction)
+    self.dy = self.dy * (1.0 - self.friction)
+    ## engines speed the ship
     if self.engines:
       self.image = self.eon_image
       self.dx += self.thrust * accelx * dt
       self.dy += self.thrust * accely * dt
     if self.brakes:
-      self.dx -= self.thrust * accelx * dt * 0.5
-      self.dy -= self.thrust * accely * dt * 0.5
+      self.dx = self.dx * (1.0 - self.brake_power)
+      self.dy = self.dy * (1.0 - self.brake_power)
     self.x += self.dx *dt
     self.y += self.dy *dt
     self.x = wrap(self.x, self.maxx)
