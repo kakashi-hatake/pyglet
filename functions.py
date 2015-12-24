@@ -15,3 +15,9 @@ def wrap(value, width):
 
 def to_radians(degrees):
   return math.pi * degrees / 180.0
+
+
+def distance_to(source, target):
+  dx=source.x-target.x
+  dy=source.y-target.y
+  return math.sqrt(dx**2 + dy**2)
